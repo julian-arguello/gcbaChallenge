@@ -4,19 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskFilterRequest;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\TaskCreateRequest;
 use App\Http\Requests\TaskUpdateRequest;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TaskController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Retorna un listado de tareas asociadas al usuario autenticado.
+     *
+     * Aplica filtros por estado, título y descripción, y pagina los resultados.
+     * En la respuesta, se incluyen datos de la paginación bajo la clave "meta".
+     *
+     * @param  TaskFilterRequest  $request  Petición que contiene los filtros de búsqueda.
+     * @return ApiResponse                  Respuesta con la lista de tareas y la información de paginación o un mensaje de error.
      */
     public function index(TaskFilterRequest $request)
     {
-        $tasks = Task::filter($request->validated())->paginate(10);
+        $filters = $request->validated();
+
+        $tasks = Task::where('user_id', JWTAuth::user()->id)
+            ->filter($filters)
+            ->paginate(10);
 
         return ApiResponse::success(
             $tasks->items(),
@@ -31,25 +42,31 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crea una nueva tarea asociada al usuario autenticado.
+     * 
+     * @param TaskCreateRequest $request    Petición que contiene los datos para crear una tarea.
+     * @return ApiResponse                  Responde con la nueva tarea o un mensaje de error.
      */
     public function store(TaskCreateRequest $request)
     {
-        $task = Task::create($request->validated());
+        $data = $request->validated();
+        $data['user_id'] = JWTAuth::user()->id;
+        $task = Task::create($data);
 
         return ApiResponse::success($task, [], 'Tarea creada exitosamente.', 201);
     }
 
     /**
-     * Display the specified resource.
+     * Retorna la información de una tarea específica asociada al usuario autenticado.
+     *
+     * @param  string       $id  ID de la tarea.
+     * @return ApiResponse       Respuesta con la tarea solicitada o un mensaje de error.
      */
     public function show(string $id)
     {
-        if (!ctype_digit($id)) {
-            return ApiResponse::error('El ID debe ser un número entero.');
-        }
-
-        $task = Task::find($id);
+        $task = Task::where('id', $id)
+            ->where('user_id', JWTAuth::user()->id)
+            ->first();
 
         if (!$task) {
             return ApiResponse::error('Tarea no encontrada.', [], 404);
@@ -58,18 +75,18 @@ class TaskController extends Controller
         return ApiResponse::success($task);
     }
 
-
     /**
-     * Update the specified resource in storage.
+     * Actualiza una tarea asociada al usuario autenticado.
+     *
+     * @param  TaskUpdateRequest  $request  Petición que contiene los datos para actualizar la tarea.
+     * @param  string             $id       ID de la tarea.
+     * @return ApiResponse                  Respuesta con la tarea actualizada o un mensaje de error.
      */
     public function update(TaskUpdateRequest $request, string $id)
     {
-
-        if (!ctype_digit($id)) {
-            return ApiResponse::error('El ID debe ser un número entero.');
-        }
-
-        $task = Task::find($id);
+        $task = Task::where('id', $id)
+            ->where('user_id', JWTAuth::user()->id)
+            ->first();
 
         if (!$task) {
             return ApiResponse::error('Tarea no encontrada.', [], 404);
@@ -81,15 +98,16 @@ class TaskController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una tarea asociada al usuario autenticado.
+     *
+     * @param  string       $id  ID de la tarea.
+     * @return ApiResponse       Respuesta con la tarea eliminada o un mensaje de error (404).
      */
     public function destroy(string $id)
     {
-        if (!ctype_digit($id)) {
-            return ApiResponse::error('El ID debe ser un número entero.');
-        }
-
-        $task = Task::find($id);
+        $task = Task::where('id', $id)
+            ->where('user_id', JWTAuth::user()->id)
+            ->first();
 
         if (!$task) {
             return ApiResponse::error('Tarea no encontrada.', [], 404);
@@ -97,6 +115,6 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return ApiResponse::success($task, [], "Tarea eliminada exitosamente.");
+        return ApiResponse::success($task, [], 'Tarea eliminada exitosamente.');
     }
 }

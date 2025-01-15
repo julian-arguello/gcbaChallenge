@@ -3,20 +3,16 @@
 namespace App\Http\Requests;
 
 use App\Helpers\ApiResponse;
-use App\Models\Task;
-use App\Traits\ValidationTaskMessagesTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
 /**
- * Valida los campos necesarios para actualizar una tarea.
+ * Valida los campos necesarios para iniciar sesión.
  */
-class TaskUpdateRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
-    use ValidationTaskMessagesTrait;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -33,10 +29,8 @@ class TaskUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes', 'required', 'min:' . Task::MIN_TITLE, 'max:' . Task::MAX_TITLE],
-            'description' => ['sometimes', 'nullable', 'max:' . Task::MAX_DESCRIPTION],
-            'status' => ['sometimes', 'required', Rule::in(Task::getStatuses())],
-            'due_date' => ['sometimes', 'required', 'date', 'after:today']
+            'email' => ['required', 'email', Rule::exists('users', 'email')],
+            'password' => ['required', 'string']
         ];
     }
 
@@ -47,7 +41,12 @@ class TaskUpdateRequest extends FormRequest
      */
     public function messages(): array
     {
-        return $this->validationMessages();
+        return [
+            'email.required' => 'El correo es obligatorio.',
+            'email.email' => 'Ingresa un correo válido.',
+            'email.exists' => 'No se encontró un usuario con ese correo.',
+            'password.required' => 'La contraseña es obligatoria.',
+        ];
     }
 
     /**
@@ -59,7 +58,7 @@ class TaskUpdateRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
-            ApiResponse::error('Error de validación.', $validator->errors())
+            ApiResponse::error('Error de validación', $validator->errors())
         );
     }
 }

@@ -9,6 +9,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
+/**
+ * Valida los campos necesarios para crear un usuario.
+ */
 class UserCreateRequest extends FormRequest
 {
     /**
@@ -33,6 +36,23 @@ class UserCreateRequest extends FormRequest
         ];
     }
 
+    /**
+     * Wrapper de validated, para encriptar la contraseña antes de crear el usuario.
+     *
+     * @return array
+     */
+    public function validatedWhithPassword(): array
+    {
+        $validated = $this->validated();
+        $validated['password'] = bcrypt($validated['password']);
+        return $validated;
+    }
+
+    /**
+     * Mensajes de error personalizados
+     *
+     * @return array
+     */
     public function messages()
     {
         return [
@@ -48,6 +68,12 @@ class UserCreateRequest extends FormRequest
         ];
     }
 
+    /**
+     * Maneja la validación fallida lanzando una excepción con un ApiResponse.
+     *
+     * @param  Validator  $validator
+     * @throws HttpResponseException
+     */
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(

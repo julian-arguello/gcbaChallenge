@@ -27,22 +27,17 @@ class Task extends Model
 
     public function scopeFilter(Builder $query, array $filters)
     {
-
         if (isset($filters['status'])) {
             $query->where('status', $filters['status']);
         }
-
-
         if (!empty($filters['search'])) {
             $query->where(function ($query) use ($filters) {
                 $query->where('title', 'like', '%' . $filters['search'] . '%')
                     ->orWhere('description', 'like', '%' . $filters['search'] . '%');
             });
         }
-
         return $query;
     }
-
 
     public static function getStatuses()
     {

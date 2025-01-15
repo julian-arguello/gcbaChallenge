@@ -9,6 +9,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+/**
+ * Valida los campos necesarios para filtrar una tarea.
+ */
 class TaskFilterRequest extends FormRequest
 {
     /**
@@ -32,6 +35,11 @@ class TaskFilterRequest extends FormRequest
         ];
     }
 
+    /**
+     * Mensajes de error personalizados
+     *
+     * @return array
+     */
     public function messages(): array
     {
         return [
@@ -40,6 +48,12 @@ class TaskFilterRequest extends FormRequest
         ];
     }
 
+    /**
+     * Maneja la validación fallida lanzando una excepción con un ApiResponse.
+     *
+     * @param  Validator  $validator
+     * @throws HttpResponseException
+     */
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(

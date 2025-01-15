@@ -11,8 +11,10 @@ use Illuminate\Validation\Rule;
 use App\Traits\ValidationTaskMessagesTrait;
 
 
+/**
+ * Valida los campos necesarios para crear una tarea.
+ */
 class TaskCreateRequest extends FormRequest
-
 {
     use ValidationTaskMessagesTrait;
 
@@ -32,7 +34,6 @@ class TaskCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'numeric'],
             'title' => ['required', 'min:' . Task::MIN_TITLE, 'max:' . Task::MAX_TITLE],
             'description' => ['nullable', 'max:' . Task::MAX_DESCRIPTION],
             'status' => ['required', Rule::in(Task::getStatuses())],
@@ -40,11 +41,22 @@ class TaskCreateRequest extends FormRequest
         ];
     }
 
+    /**
+     * Mensajes de error personalizados
+     *
+     * @return array
+     */
     public function messages(): array
     {
         return $this->validationMessages();
     }
 
+    /**
+     * Maneja la validación fallida lanzando una excepción con un ApiResponse.
+     *
+     * @param  Validator  $validator
+     * @throws HttpResponseException
+     */
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
