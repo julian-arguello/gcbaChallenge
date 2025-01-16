@@ -80,4 +80,27 @@ npm install
 ```bash
 npm run dev
 ```
-   
+## Acceso a la plataforma
+
+#### Frontend (Aplicación React)
+- URL: [http://localhost:3000](http://localhost:3000)  
+  - Aquí podrás acceder a la interfaz de usuario para gestionar las tareas.
+  - **Usuarios de prueba**:
+    - **Usuario 1:**
+      - Nombre: Julián Argüello
+      - Email: julian.andres.arguello@gmail.com
+      - Contraseña: asdasd
+    - **Usuario 2:**
+      - Nombre: sistemaytecno
+      - Email: sistemaytecno.dghc@gmail.com
+      - Contraseña: asdasd
+
+### Backend (API Laravel)
+- URL base: [http://localhost/api](http://localhost/api)  
+  - Esta dirección te llevará a las rutas de la API. **Todas las rutas están sujetas a autenticación.**    - Ejemplo de rutas disponibles:
+    - Obtener todas las tareas: `GET http://localhost/api/tasks`
+    - Crear una tarea: `POST http://localhost/api/tasks`
+    - Actualizar una tarea: `PUT http://localhost/api/tasks/{id}`
+    - Eliminar una tarea: `DELETE http://localhost/api/tasks/{id}`
+
+---
