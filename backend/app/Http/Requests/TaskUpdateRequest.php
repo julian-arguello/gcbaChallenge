@@ -32,11 +32,20 @@ class TaskUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        $taskId = $this->route('id');
+        $task = Task::find($taskId);
+
+        $dueDateRules = ['sometimes', 'date'];
+        if ($task && $task->due_date) {
+            $dueDateRules[] = 'after_or_equal:' . $task->due_date;
+        }
+
         return [
             'title' => ['sometimes', 'required', 'min:' . Task::MIN_TITLE, 'max:' . Task::MAX_TITLE],
             'description' => ['sometimes', 'nullable', 'max:' . Task::MAX_DESCRIPTION],
             'status' => ['sometimes', 'required', Rule::in(Task::getStatuses())],
-            'due_date' => ['sometimes', 'required', 'date', 'after:today']
+            'due_date' => $dueDateRules
         ];
     }
 

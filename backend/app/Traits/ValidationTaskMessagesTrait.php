@@ -18,6 +18,7 @@ trait ValidationTaskMessagesTrait
             'due_date.required' => 'La fecha de vencimiento es obligatoria.',
             'due_date.date' => 'Debe proporcionar una fecha válida.',
             'due_date.after' => 'La fecha de vencimiento debe ser posterior a hoy.',
+            'due_date.after_or_equal' => 'El campo fecha de vencimiento debe ser una fecha igual o posterior a la fecha previa.',
         ];
     }
 }

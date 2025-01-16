@@ -37,7 +37,7 @@ class TaskCreateRequest extends FormRequest
             'title' => ['required', 'min:' . Task::MIN_TITLE, 'max:' . Task::MAX_TITLE],
             'description' => ['nullable', 'max:' . Task::MAX_DESCRIPTION],
             'status' => ['required', Rule::in(Task::getStatuses())],
-            'due_date' => ['required', 'date', 'after:today']
+            'due_date' => ['nullable', 'date', 'after:today']
         ];
     }
 

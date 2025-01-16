@@ -94,7 +94,7 @@ class TaskController extends Controller
 
         $task->update($request->validated());
 
-        return ApiResponse::success($task);
+        return ApiResponse::success($task, [], 'Tarea editada exitosamente.');
     }
 
     /**
