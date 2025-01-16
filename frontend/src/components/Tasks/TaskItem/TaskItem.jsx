@@ -16,7 +16,7 @@ export const TaskItem = ({ task }) => {
         <h5 className="card-title">{task.title}</h5>
         <p className="card-text">{task.description}</p>
         <p className="m-0 h6">
-          <b>Fecha liminte: {task.due_date}</b>
+          <b>Fecha de Vencimiento: {task.due_date}</b>
         </p>
       </div>
 

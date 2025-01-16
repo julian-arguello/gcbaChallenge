@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import {
   getTasks as getTaskApi,
   deleteTask as deleteTaskApi,
+  editTask as editTaskApi,
 } from '@api/tasks';
 const TasksContext = createContext();
 
@@ -28,13 +29,30 @@ export const TasksProvider = ({ children }) => {
   /**
    *
    */
+  const editTask = async (task, taskId) => {
+    setLoading(true);
+    try {
+      const fetchedTasks = await editTaskApi(task, taskId);
+      console.log(`fetchedTasks`, fetchedTasks);
+      setSelectTask(null);
+      fetchTasks({ status: '', search: '' });
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
+   *
+   */
   const deleteTask = async (taskId) => {
     setLoading(true);
     try {
       const fetchedTasks = await deleteTaskApi(taskId);
       console.log(`fetchedTasks`, fetchedTasks);
       setSelectTask(null);
-      fetchTasks();
+      fetchTasks({ status: '', search: '' });
     } catch (error) {
       throw error;
     } finally {
@@ -50,6 +68,7 @@ export const TasksProvider = ({ children }) => {
         fetchTasks,
         selectTask,
         setSelectTask,
+        editTask,
         deleteTask,
       }}
     >

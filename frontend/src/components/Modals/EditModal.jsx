@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useTasks } from '@context/TasksContext';
+import { EditForm } from '@components/Forms/EditFrom';
 
 export const EditModal = () => {
-  const { selectTask } = useTasks();
+  const { selectTask, editTask } = useTasks();
+
+  const formSubmitRef = useRef(null);
+
+  const handleSave = () => {
+    if (formSubmitRef.current) {
+      formSubmitRef.current();
+    }
+  };
+
+  const handleSubmit = (values) => {
+    console.log('Valores enviados:', values);
+    editTask(values, selectTask.id);
+  };
 
   return (
     <div
@@ -28,12 +42,11 @@ export const EditModal = () => {
 
           <div className="modal-body">
             {selectTask && (
-              <ul>
-                <li>{selectTask.title}</li>
-                <li>{selectTask.description}</li>
-                <li>{selectTask.status}</li>
-                <li>{selectTask.due_date}</li>
-              </ul>
+              <EditForm
+                task={selectTask}
+                onSubmit={handleSubmit}
+                setFormSubmitRef={formSubmitRef}
+              />
             )}
           </div>
 
@@ -47,11 +60,11 @@ export const EditModal = () => {
             </button>
             <button
               type="button"
-              className="btn btn-danger"
-              onClick={() => console(selectTask.id)}
+              className="btn btn-primary"
+              onClick={handleSave}
               data-bs-dismiss="modal"
             >
-              Eliminar
+              Guardar
             </button>
           </div>
         </div>

@@ -13,6 +13,15 @@ export const getTasks = async ({ status, search = '' }) => {
   }
 };
 
+export const editTask = async (task, taskId) => {
+  try {
+    const response = await api.put(`/tasks/${taskId}`, task);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || 'Error al editar la tareas';
+  }
+};
+
 export const deleteTask = async (taskId) => {
   try {
     const response = await api.delete(`/tasks/${taskId}`);

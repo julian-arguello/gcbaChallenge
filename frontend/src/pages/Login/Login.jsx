@@ -18,7 +18,6 @@ export const Login = () => {
     try {
       await handleLogin(values);
       //Todo: manejar mensaje exitoso
-      console.log('Login exitoso:');
       navigate('/tareas');
     } catch (error) {
       //Todo: manejar mensaje de error.
