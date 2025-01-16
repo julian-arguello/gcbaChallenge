@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useTasks } from '@context/TasksContext';
-import { EditForm } from '@components/Forms/EditFrom';
+import { CreateForm } from '@components/Forms/CreateForm';
 
-export const EditModal = () => {
+export const CreateModal = () => {
   const { selectTask } = useTasks();
   const [onSubmit, setOnSubmit] = useState(null);
   const [isValid, setIsValid] = useState(false);
@@ -16,16 +16,16 @@ export const EditModal = () => {
   return (
     <div
       className="modal fade"
-      id="editModal"
+      id="createModal"
       tabIndex="-1"
-      aria-labelledby="editModalLabel"
+      aria-labelledby="createModalLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="editModalLabel">
-              Editar Tarea
+            <h5 className="modal-title" id="createModalLabel">
+              Crear Tarea
             </h5>
             <button
               type="button"
@@ -36,13 +36,7 @@ export const EditModal = () => {
           </div>
 
           <div className="modal-body">
-            {selectTask && (
-              <EditForm
-                task={selectTask}
-                setOnSubmit={setOnSubmit}
-                setIsValid={setIsValid}
-              />
-            )}
+            <CreateForm setOnSubmit={setOnSubmit} setIsValid={setIsValid} />
           </div>
 
           <div className="modal-footer">
@@ -60,7 +54,7 @@ export const EditModal = () => {
               {...(isValid && { 'data-bs-dismiss': 'modal' })}
               disabled={!isValid}
             >
-              Guardar
+              Crear
             </button>
           </div>
         </div>

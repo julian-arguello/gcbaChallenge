@@ -1,23 +1,22 @@
 import React from 'react';
+import { useAuth } from '@context/AuthContext';
 
-import { useTasks } from '@context/TasksContext';
-
-export const DeleteModal = () => {
-  const { selectTask, deleteTask } = useTasks();
+export const LogoutModal = () => {
+  const { logout } = useAuth();
 
   return (
     <div
       className="modal fade"
-      id="deleteModal"
+      id="logoutModal"
       tabIndex="-1"
-      aria-labelledby="deleteModalLabel"
+      aria-labelledby="logoutModalLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="deleteModalLabel">
-              Confirmar eliminación
+            <h5 className="modal-title" id="logoutModalLabel">
+              Confirmar Cierre Sesión
             </h5>
             <button
               type="button"
@@ -27,7 +26,7 @@ export const DeleteModal = () => {
             ></button>
           </div>
           <div className="modal-body">
-            ¿Estás seguro de que deseas eliminar esta tarea?
+            ¿Estás seguro de que deseas Cerrar Sesión?
           </div>
           <div className="modal-footer">
             <button
@@ -40,10 +39,10 @@ export const DeleteModal = () => {
             <button
               type="button"
               className="btn btn-danger"
-              onClick={async () => await deleteTask(selectTask.id)}
+              onClick={async () => await logout()}
               data-bs-dismiss="modal"
             >
-              Eliminar
+              Cerrar Sesión
             </button>
           </div>
         </div>

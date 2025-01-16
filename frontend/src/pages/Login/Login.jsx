@@ -27,7 +27,7 @@ export const Login = () => {
 
   return (
     <section className={styles.section}>
-      <h2>Iniciar Sesión</h2>
+      <h2 className="p-5">Iniciar Sesión</h2>
       <Formik
         initialValues={{
           email: '',

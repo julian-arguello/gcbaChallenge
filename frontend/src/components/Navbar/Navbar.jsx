@@ -4,9 +4,10 @@ import { filterTasksSchema } from '@validation/filterTasksSchema';
 import styles from '@components/Navbar/navbar.module.scss';
 import { useAuth } from '@context/AuthContext';
 import { useTasks } from '@context/TasksContext';
+import { LogoutModal } from '@components/Modals/LogoutModal';
 
 export const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { fetchTasks } = useTasks();
 
   const handleSubmit = async (values) => {
@@ -26,7 +27,11 @@ export const Navbar = () => {
         <div className={styles.info}>
           <p className="h6">Hola {user.name}</p>
 
-          <button className="btn btn-dark" onClick={() => logout()}>
+          <button
+            className="btn btn-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#logoutModal"
+          >
             Cerrar Sesión
           </button>
         </div>
@@ -84,6 +89,7 @@ export const Navbar = () => {
           )}
         </Formik>
       </div>
+      <LogoutModal />
     </nav>
   );
 };

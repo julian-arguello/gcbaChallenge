@@ -1,17 +1,24 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { editTaskSchema } from '@validation/editTaskSchema';
+import { createTaskSchema } from '@validation/createTaskSchema';
 import { useTasks } from '@context/TasksContext';
 
-export const EditForm = ({ task, setOnSubmit, setIsValid }) => {
-  const { editTask } = useTasks();
+export const CreateForm = ({ setOnSubmit, setIsValid }) => {
+  const { createTask } = useTasks();
 
   return (
     <Formik
-      initialValues={{ ...task, description: task?.description || '' }}
-      validationSchema={editTaskSchema(task.due_date)}
-      enableReinitialize
-      onSubmit={async (values) => await editTask(values, task.id)}
+      initialValues={{
+        title: '',
+        description: '',
+        due_date: '',
+      }}
+      validationSchema={createTaskSchema()}
+      onSubmit={async (values, { resetForm }) => {
+        values.status = 'pending';
+        await createTask(values);
+        resetForm();
+      }}
     >
       {({ handleSubmit, errors, touched, isValid, dirty }) => {
         setOnSubmit(() => handleSubmit);
@@ -19,28 +26,6 @@ export const EditForm = ({ task, setOnSubmit, setIsValid }) => {
 
         return (
           <Form>
-            <div className="mb-3">
-              <label htmlFor="status" className="form-label">
-                Estado
-              </label>
-              <Field
-                id="status"
-                as="select"
-                name="status"
-                className={`form-select ${
-                  errors.status && touched.status ? 'is-invalid' : ''
-                }`}
-              >
-                <option value="pending">Pendientes</option>
-                <option value="in_progress">En progreso</option>
-                <option value="completed">Completados</option>
-              </Field>
-              <ErrorMessage
-                name="status"
-                component="p"
-                className="text-danger pt-1"
-              />
-            </div>
             <div className="mb-3">
               <label htmlFor="title" className="form-label">
                 Título

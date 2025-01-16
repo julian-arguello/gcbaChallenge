@@ -15,9 +15,11 @@ export const TaskItem = ({ task }) => {
       <div className="card-body">
         <h5 className="card-title">{task.title}</h5>
         <p className="card-text">{task.description}</p>
-        <p className="m-0 h6">
-          <b>Fecha de Vencimiento: {task.due_date}</b>
-        </p>
+        {task.due_date && (
+          <p className="m-0 h6">
+            <b>Fecha de Vencimiento: {task.due_date}</b>
+          </p>
+        )}
       </div>
 
       <div className="card-footer bg-transparent d-flex justify-content-end">

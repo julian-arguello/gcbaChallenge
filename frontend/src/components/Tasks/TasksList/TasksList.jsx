@@ -11,7 +11,7 @@ export const TasksList = () => {
   useEffect(() => {
     const loadTasks = async () => {
       try {
-        await fetchTasks({ status: '', search: '' });
+        await fetchTasks();
       } catch (error) {
         console.error('Error al cargar las tareas:', error);
       }

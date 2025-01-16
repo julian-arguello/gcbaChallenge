@@ -1,6 +1,6 @@
 import api from '@api/axiosConfig';
 
-export const getTasks = async ({ status, search = '' }) => {
+export const getTasks = async ({ status, search = '' } = {}) => {
   try {
     const params = new URLSearchParams();
     if (status) params.append('status', status);
@@ -10,6 +10,15 @@ export const getTasks = async ({ status, search = '' }) => {
     return response.data;
   } catch (error) {
     throw error.response?.data || 'Error al obtener lista de tareas';
+  }
+};
+
+export const createTask = async (task) => {
+  try {
+    const response = await api.post(`/tasks/`, task);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || 'Error al crear la tareas';
   }
 };
 

@@ -2,10 +2,13 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { login as apiLogin } from '@api/auth';
 import { Navigate } from 'react-router-dom';
 import { setLogoutFunction } from '@utils/authManager';
+import { useNotification } from '@context/NotificationContext';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const { addNotification } = useNotification();
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem('authUser')) || null
   );
@@ -18,7 +21,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('authUser', JSON.stringify(data.data.user));
       setToken(data.data.token);
       setUser(data.data.user);
+      addNotification(data.message);
     } catch (error) {
+      addNotification(error.message, 'danger');
       throw error;
     }
   };
