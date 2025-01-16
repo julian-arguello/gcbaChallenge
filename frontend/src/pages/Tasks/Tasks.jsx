@@ -1,6 +1,7 @@
 import React from 'react';
 import { TasksList } from '@components/Tasks/TasksList/TasksList';
 import { CreateModal } from '@components/Modals/CreateModal';
+import { TasksPaginator } from '@components/Tasks/TasksPaginator';
 
 export const Tasks = () => {
   return (
@@ -16,6 +17,7 @@ export const Tasks = () => {
         </button>
       </div>
       <TasksList />
+      <TasksPaginator />
       <CreateModal />
     </section>
   );

@@ -27,7 +27,8 @@ class TaskController extends Controller
 
         $tasks = Task::where('user_id', JWTAuth::user()->id)
             ->filter($filters)
-            ->paginate(10);
+            ->orderBy('id', 'desc')
+            ->paginate(6);
 
         return ApiResponse::success(
             $tasks->items(),

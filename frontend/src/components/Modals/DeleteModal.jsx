@@ -40,7 +40,11 @@ export const DeleteModal = () => {
             <button
               type="button"
               className="btn btn-danger"
-              onClick={async () => await deleteTask(selectTask.id)}
+              onClick={async () => {
+                if (selectTask) {
+                  await deleteTask(selectTask.id);
+                }
+              }}
               data-bs-dismiss="modal"
             >
               Eliminar

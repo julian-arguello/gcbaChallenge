@@ -1,10 +1,11 @@
 import api from '@api/axiosConfig';
 
-export const getTasks = async ({ status, search = '' } = {}) => {
+export const getTasks = async ({ status, search = '', page = 1 } = {}) => {
   try {
     const params = new URLSearchParams();
     if (status) params.append('status', status);
     if (search) params.append('search', search);
+    if (page) params.append('page', page);
 
     const response = await api.get(`/tasks?${params.toString()}`);
     return response.data;

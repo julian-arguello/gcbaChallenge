@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
   getTasks as getTaskApi,
   deleteTask as deleteTaskApi,
@@ -14,15 +14,34 @@ export const TasksProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [selectTask, setSelectTask] = useState(null);
   const { addNotification } = useNotification();
+  const [filters, setFilters] = useState({});
+  const [meta, setMeta] = useState({
+    current_page: 1,
+    total_pages: 1,
+    total_tasks: 0,
+  });
+
+  useEffect(() => {
+    fetchTasks();
+  }, [filters, meta.current_page]);
 
   /**
    *
    */
-  const fetchTasks = async (filters) => {
+  const fetchTasks = async () => {
     setLoading(true);
     try {
-      const response = await getTaskApi(filters);
+      const page = meta.current_page ?? 1;
+      const params = { ...filters, page };
+      const response = await getTaskApi(params);
       setTasks(response.data);
+      if (response.meta) {
+        setMeta({
+          current_page: response.meta.current_page,
+          total_pages: response.meta.total_pages,
+          total_tasks: response.meta.total_tasks,
+        });
+      }
     } catch (error) {
       addNotification(error.message, 'danger');
       throw error;
@@ -96,6 +115,9 @@ export const TasksProvider = ({ children }) => {
         createTask,
         editTask,
         deleteTask,
+        setFilters,
+        meta,
+        setMeta,
       }}
     >
       {children}

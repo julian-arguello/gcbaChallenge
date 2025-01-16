@@ -3,7 +3,6 @@ import { useTasks } from '@context/TasksContext';
 import { CreateForm } from '@components/Forms/CreateForm';
 
 export const CreateModal = () => {
-  const { selectTask } = useTasks();
   const [onSubmit, setOnSubmit] = useState(null);
   const [isValid, setIsValid] = useState(false);
 

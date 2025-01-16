@@ -5,19 +5,18 @@ import styles from '@components/Navbar/navbar.module.scss';
 import { useAuth } from '@context/AuthContext';
 import { useTasks } from '@context/TasksContext';
 import { LogoutModal } from '@components/Modals/LogoutModal';
+import { useNotification } from '@context/NotificationContext';
 
 export const Navbar = () => {
   const { user } = useAuth();
-  const { fetchTasks } = useTasks();
+  const { setFilters } = useTasks();
+  const { addNotification } = useNotification();
 
   const handleSubmit = async (values) => {
     try {
-      await fetchTasks(values);
-
-      //Todo: manejar mensaje exitoso
+      setFilters(values);
     } catch (error) {
-      //Todo: manejar mensaje de error.
-      console.log(error);
+      addNotification(error.message, 'danger');
     }
   };
 

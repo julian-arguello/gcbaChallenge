@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { editTaskSchema } from '@validation/editTaskSchema';
 import { useTasks } from '@context/TasksContext';
@@ -14,8 +14,13 @@ export const EditForm = ({ task, setOnSubmit, setIsValid }) => {
       onSubmit={async (values) => await editTask(values, task.id)}
     >
       {({ handleSubmit, errors, touched, isValid, dirty }) => {
-        setOnSubmit(() => handleSubmit);
-        setIsValid(isValid && dirty);
+        useEffect(() => {
+          setOnSubmit(() => handleSubmit);
+        }, [handleSubmit, setOnSubmit]);
+
+        useEffect(() => {
+          setIsValid(isValid && dirty);
+        }, [isValid, dirty, setIsValid]);
 
         return (
           <Form>

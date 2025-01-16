@@ -14,13 +14,6 @@ export const Notifications = ({ notifications }) => {
         >
           <div className="toast-header">
             <strong className="me-auto">{mapStatus(type)}</strong>
-            {/* <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="toast"
-              aria-label="Close"
-              onClick={() => console.log('Cierre manual en desarrollo')}
-            ></button> */}
           </div>
           <div className="toast-body">{message}</div>
         </div>
