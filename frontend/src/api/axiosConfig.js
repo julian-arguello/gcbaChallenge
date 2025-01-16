@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getLogoutFunction } from '@utils/authManager';
 
 const api = axios.create({
   baseURL: 'http://localhost/api',
@@ -15,6 +16,19 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response?.status == 401) {
+      const logout = getLogoutFunction();
+      logout();
+    }
     return Promise.reject(error);
   }
 );

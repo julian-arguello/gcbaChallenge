@@ -17,12 +17,12 @@ export const Login = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await handleLogin(values);
-      //manejar mensaje exitoso
+      //Todo: manejar mensaje exitoso
       console.log('Login exitoso:');
       navigate('/tareas');
     } catch (error) {
-      //manejar mensaje de error.
-      console.log(error.message);
+      //Todo: manejar mensaje de error.
+      console.log(error);
     }
   };
 

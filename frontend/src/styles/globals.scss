@@ -12,6 +12,16 @@ section {
   align-items: center;
   flex-direction: column;
   h2 {
-    padding: 3rem;
+    padding: 2rem;
   }
+}
+
+.pending {
+  background-color: #ed8e00;
+}
+.in_progress {
+  background-color: #2196f3;
+}
+.completed {
+  background-color: #4caf50;
 }

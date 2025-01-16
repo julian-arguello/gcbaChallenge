@@ -1,0 +1,26 @@
+.nav {
+  background-color: #fff;
+}
+
+.container {
+  min-height: 4rem;
+}
+
+.info {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  p {
+    margin: 0;
+  }
+}
+
+@media (max-width: 350px) {
+  .info {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+}

@@ -1,9 +1,14 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import { login as apiLogin } from '@api/auth';
+import { Navigate } from 'react-router-dom';
+import { setLogoutFunction } from '@utils/authManager';
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(localStorage.getItem('authUser') || null);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem('authUser')) || null
+  );
   const [token, setToken] = useState(localStorage.getItem('authToken') || null);
 
   const handleLogin = async (credentials) => {
@@ -18,8 +23,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authUser');
+    setToken(null);
+    setUser(null);
+    <Navigate to="/login" />;
+  };
+
+  useEffect(() => {
+    setLogoutFunction(logout);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, token, handleLogin }}>
+    <AuthContext.Provider value={{ user, token, handleLogin, logout }}>
       {children}
     </AuthContext.Provider>
   );

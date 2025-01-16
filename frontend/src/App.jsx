@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { PotectedRoute } from '@components/ProtectedRoute';
 import { Login } from '@pages/Login/Login';
 import { Tasks } from '@pages/Tasks/Tasks';
+import { Navbar } from '@components/Navbar/Navbar';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           path="/tareas"
           element={
             <PotectedRoute>
+              <Navbar />
               <Tasks />
             </PotectedRoute>
           }

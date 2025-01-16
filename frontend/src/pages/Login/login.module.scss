@@ -4,3 +4,15 @@
   border-radius: 0.5rem;
   width: $sm;
 }
+
+@media (max-width: $md) {
+  .form {
+    width: 25rem;
+  }
+}
+
+@media (max-width: $sm) {
+  .form {
+    width: 18rem;
+  }
+}
