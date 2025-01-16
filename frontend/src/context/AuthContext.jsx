@@ -14,6 +14,13 @@ export const AuthProvider = ({ children }) => {
   );
   const [token, setToken] = useState(localStorage.getItem('authToken') || null);
 
+  /**
+   * Maneja el proceso de inicio de sesión del usuario.
+   *
+   * @param {Object} credentials Credenciales del usuario (username y password).
+   * @returns {void}
+   * @throws {void} Maneja los errores mostrando notificaciones.
+   */
   const handleLogin = async (credentials) => {
     try {
       const data = await apiLogin(credentials);
@@ -24,10 +31,14 @@ export const AuthProvider = ({ children }) => {
       addNotification(data.message);
     } catch (error) {
       addNotification(error.message, 'danger');
-      throw error;
     }
   };
 
+  /**
+   * Maneja el proceso de cierre de sesión del usuario.
+   *
+   * @returns {void}
+   */
   const logout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('authUser');

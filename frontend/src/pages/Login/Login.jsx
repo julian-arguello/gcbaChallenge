@@ -17,11 +17,9 @@ export const Login = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await handleLogin(values);
-      //Todo: manejar mensaje exitoso
       navigate('/tareas');
     } catch (error) {
-      //Todo: manejar mensaje de error.
-      console.log(error);
+      navigate('/login');
     }
   };
 

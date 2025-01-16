@@ -1,13 +1,12 @@
 import React from 'react';
 import { mapStatus, mapStatusColor } from '@utils/statusMapper';
-import styles from '@components/Tasks/TaskItem/taskItem.module.scss';
 import { useTasks } from '@context/TasksContext';
 
 export const TaskItem = ({ task }) => {
   const { setSelectTask } = useTasks();
 
   return (
-    <li className={'card border-light mb-3' + styles.card}>
+    <li className={'card border-light mb-3'}>
       <div className={'card-header h6' + mapStatusColor(task.status)}>
         {mapStatus(task.status)}
       </div>

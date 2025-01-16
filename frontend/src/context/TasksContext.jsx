@@ -26,7 +26,14 @@ export const TasksProvider = ({ children }) => {
   }, [filters, meta.current_page]);
 
   /**
+   * Obtiene el listado de tareas según los filtros aplicados.
    *
+   * Filtros disponibles:
+   * - Estado de la tarea.
+   * - Búsqueda por título o descripción.
+   * - Paginación.
+   *
+   * @throws {string} Muestra una notificación en caso de error.
    */
   const fetchTasks = async () => {
     setLoading(true);
@@ -51,7 +58,10 @@ export const TasksProvider = ({ children }) => {
   };
 
   /**
+   * Crea una nueva tarea y actualiza el listado de tareas.
    *
+   * @param {Object} task Datos de la nueva tarea.
+   * @throws {string} Muestra una notificación en caso de error.
    */
   const createTask = async (task) => {
     setLoading(true);
@@ -69,7 +79,11 @@ export const TasksProvider = ({ children }) => {
   };
 
   /**
+   * Edita una tarea existente y actualiza el listado de tareas.
    *
+   * @param {Object} task Datos actualizados de la tarea.
+   * @param {number|string} taskId Id de la tarea a editar.
+   * @throws {string} Muestra una notificación en caso de error.
    */
   const editTask = async (task, taskId) => {
     setLoading(true);
@@ -87,7 +101,10 @@ export const TasksProvider = ({ children }) => {
   };
 
   /**
+   * Elimina una tarea existente y actualiza el listado de tareas.
    *
+   * @param {number|string} taskId Id de la tarea a eliminar.
+   * @throws {string} Muestra una notificación en caso de error.
    */
   const deleteTask = async (taskId) => {
     setLoading(true);
