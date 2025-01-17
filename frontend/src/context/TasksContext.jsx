@@ -6,10 +6,12 @@ import {
   editTask as editTaskApi,
 } from '@api/tasks';
 import { useNotification } from '@context/NotificationContext';
+import { useAuth } from '@context/AuthContext';
 
 const TasksContext = createContext();
 
 export const TasksProvider = ({ children }) => {
+  const { token } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectTask, setSelectTask] = useState(null);
@@ -22,7 +24,9 @@ export const TasksProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    fetchTasks();
+    if (token) {
+      fetchTasks();
+    }
   }, [filters, meta.current_page]);
 
   /**
